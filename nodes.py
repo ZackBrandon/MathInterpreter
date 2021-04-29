@@ -59,6 +59,16 @@ class DivideNode:
     def __repr__(self):
         return f"({self.node_a}/{self.node_b})"
 
+#Used to raise something to a power
+@dataclass
+class PowerNode:
+    node_a: any
+    node_b: any
+
+    #allows us to print this node to the screen
+    def __repr__(self):
+        return f"({self.node_a}^{self.node_b})"
+        
 #doesn't really do anything..but for example if you said +5
 @dataclass
 class PlusNode:

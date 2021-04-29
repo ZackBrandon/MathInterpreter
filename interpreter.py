@@ -16,23 +16,24 @@ class Interpreter:
         #method(node) returns 
         return method(node)
     
+    #Returns the value of a NumberNode()
     def visit_NumberNode(self,node):
         #Returns a number value of the passed in number node
         return Number(node.value)
     
-    #Returns the value of two nodes
+    #Returns the value of an AddNode()
     def visit_AddNode(self, node):
         return Number(self.visit(node.node_a).value + self.visit(node.node_b).value)
 
-    #Returns the value of two nodes
+    #Returns the value of a SubtractNode()
     def visit_SubtractNode(self, node):
         return Number(self.visit(node.node_a).value - self.visit(node.node_b).value)
 
-    #Returns the value of two nodes
+    #Returns the value of a MultiplyNode()
     def visit_MultiplyNode(self, node):
         return Number(self.visit(node.node_a).value * self.visit(node.node_b).value)
 
-    #Returns the value of two nodes
+    #Returns the value of a DivideNode()
     def visit_DivideNode(self, node):
         #Error catching (for math divide by zero)
         try:
@@ -40,7 +41,11 @@ class Interpreter:
         except:
             raise Exception("Runtime math error")
 
-    #returns the value of the node
+    #Returns the value of a PowerNode()
+    def visit_PowerNode(self, node):
+        return Number(self.visit(node.node_a).value ** self.visit(node.node_b).value)
+
+    #returns the value of a PlusNode()
     def visit_PlusNode(self, node):
         return self.visit(node.node)
     

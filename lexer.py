@@ -75,6 +75,11 @@ class Lexer:
                 #yield the rparen token (without any value)
                 yield Token(TokenType.RPAREN)
             
+            #POWER Token
+            elif self.current_char == '^':
+                self.advance()
+                yield Token(TokenType.POWER)
+
             #If we do not understand the current character
             else:
                 #raise and Exception

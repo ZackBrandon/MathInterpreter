@@ -5,7 +5,7 @@ from interpreter import Interpreter
 #main program
 
 while True:
-    try:
+    #try:
         #store the user input for each line in the 'text' variable
         text = input("calc > ")
         #pass that into our lexer to generate our tokens (which takes text as it's only parameter)
@@ -16,6 +16,7 @@ while True:
         parser = Parser(tokens)
         #Assign the result of parser.parse() to the 'tree' variable
         tree = parser.parse()
+        print(tree)
         #If there is no tree, skip the following lines
         if not tree: continue
         #create a new interpreter, assign the 'interpreter' variable to it.
@@ -24,5 +25,5 @@ while True:
         value = interpreter.visit(tree)
         print(value)
     #If there is a problem anywhere in here, print the exception
-    except Exception as e:
-        print(e)
+    #except Exception as e:
+        #print(e)

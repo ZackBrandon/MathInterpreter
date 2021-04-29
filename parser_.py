@@ -1,6 +1,6 @@
 from tokens import TokenType
 from nodes import *
-#this parser transforms the tokens generator list objext passed into it into nodes
+#this parser transforms the tokens generator list objext passed into it into nodes and returns a node tree 
 
 '''
 Example of a generator object list that is passed into Parser (tokens) for reference
@@ -57,7 +57,7 @@ class Parser:
         #return the node
         return result
 
-    #returns an expression to be parsed by self.parse()
+    #returns an expression to be parsed by self.parse() (handles top-level +/- functionality)
     def expr(self):
         #this result is a term node, pass that into 'result', look for a term
         result = self.term()
@@ -80,11 +80,11 @@ class Parser:
 
             #return the result (which will be either an AddNode() or a SubtractNode() )
         return result
-        
-    #Returns a term to be evaluated by self.expression()
+
+    #Returns a term to be evaluated by self.expression() (handles multiplication and divide functionality)
     def term(self):
-        #the result is a factor node, pass that into 'result', look for a factor
-        result = self.factor()
+        #the result is a subterm, pass that into 'result', look for a subterm
+        result = self.subterm()
 
 
         #next, we want to look for 0 or more * or / operators to build the expression
@@ -95,18 +95,31 @@ class Parser:
                 #advance to the next token
                 self.advance()
                 #Then we need to create a MultiplyNode() and reassign it to the result veriable
-                result = MultiplyNode(result, self.factor())
+                result = MultiplyNode(result, self.subterm())
             #If it's a divide operator:
             elif self.current_token.type == TokenType.DIVIDE:
                 #advance to the next token
                 self.advance()
                 #Create a DivideNode(), and reassign it to the result variable
-                result = DivideNode(result, self.factor())                
+                result = DivideNode(result, self.subterm())
 
-            #return the result (which will be either a DivideNode() or a MultiplyNode() )
-            #print(result)
+        #return the result (which will be either a DivideNode() or a MultiplyNode() )
+        #print(result)
         return result
     
+    #handles the lowest level POWER functionality
+    def subterm(self):
+        #result is a factor
+        result = self.factor()
+
+        #When we get to a POWER TokenType in our generator list:
+        while self.current_token != None and self.current_token.type == TokenType.POWER:
+            #Advance to the next token
+            self.advance()
+            #create a PowerNode() and pass it the result and a factor
+            result = PowerNode(result, self.factor())
+        
+        return result
     #returns a factor to be evaluated by self.term()
     def factor(self):
         #store the current_token in a new 'token' variable

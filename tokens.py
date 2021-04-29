@@ -9,6 +9,7 @@ class TokenType(Enum):
     DIVIDE      = 4
     LPAREN      = 5
     RPAREN      = 6
+    POWER       = 7
 
 #A dataclass is a structure that can hold different fields and values
 @dataclass
